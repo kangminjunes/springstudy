@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webflow-project-description>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.18.202109140629-RELEASE]]></pluginVersion>
+	<configs>
+		<config>
+			<file>src/main/resources/xml01/appCtx.xml</file>
+			<name><![CDATA[appCtx]]></name>
+		</config>
+		<config>
+			<file>src/main/resources/xml02/appCtx.xml</file>
+			<name><![CDATA[appCtx]]></name>
+		</config>
+	</configs>
+</webflow-project-description>
