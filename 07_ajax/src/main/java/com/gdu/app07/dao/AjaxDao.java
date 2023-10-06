@@ -21,6 +21,7 @@ public class AjaxDao {
     this.b = b;
     this.c = c;
   }
+  
   public List<AjaxDto> getDtoList() {
     return Arrays.asList(a, b, c);
   }

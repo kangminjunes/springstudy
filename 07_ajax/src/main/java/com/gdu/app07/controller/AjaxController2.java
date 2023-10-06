@@ -14,9 +14,9 @@ import com.gdu.app07.service.AjaxService;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/ajax2")
-@RestController // 모든 메소드 @ResponseBody를 추가하는 @Controller이다.
+@RestController  // 모든 메소드에 @ResponseBody를 추가하는 @Controller이다.
 @RequiredArgsConstructor
-public class AjaxControlleer2 {
+public class AjaxController2 {
 
   private final AjaxService ajaxService;
   
@@ -25,8 +25,8 @@ public class AjaxControlleer2 {
     return ajaxService.getDtoList();
   }
   
-  @GetMapping(value="/detail.do" , produces=MediaType.APPLICATION_JSON_VALUE)
-  public AjaxDto getDot(@RequestParam(value="name") String name) {
+  @GetMapping(value="/detail.do", produces=MediaType.APPLICATION_JSON_VALUE)
+  public AjaxDto getDto(@RequestParam(value="name") String name) {
     return ajaxService.getDto(name);
   }
   

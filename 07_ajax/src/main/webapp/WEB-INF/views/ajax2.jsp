@@ -26,7 +26,7 @@
       success: function(resData){
         $('#list').empty();
         $.each(resData, function(i, elem){
-          $('#list').append('<div class="row">' + elem.name + ', ' + elem.age + '</div><input type="hidden" value ="'+ elem.name + '"> ');
+          $('#list').append('<div class="row">' + elem.name + ', ' + elem.age + '</div><input type="hidden" value="' + elem.name + '">');
         })
       }
       })
@@ -39,7 +39,7 @@
         // 요청
         type: 'get',
         url: '${contextPath}/ajax2/detail.do',
-        data: 'name=' + $(this).next(). val(),
+        data: 'name=' + $(this).next().val(),
         // 응답
         dataType: 'json',
         success: function(resData){
