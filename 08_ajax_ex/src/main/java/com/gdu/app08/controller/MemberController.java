@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 
   private final MemberService memberService;
-  
+ 
   @ResponseBody
   @GetMapping(value="/member/health.check", produces="application/json; charset=UTF-8")
   public Map<String, Object> bmiInfo(@RequestParam("memberNo") int memberNo) {
@@ -28,7 +28,5 @@ public class MemberController {
   public byte[] profile(@RequestParam("memberNo") int memberNo) {
     return memberService.getProfileImage(memberNo);
   }
-
   
 }
-
