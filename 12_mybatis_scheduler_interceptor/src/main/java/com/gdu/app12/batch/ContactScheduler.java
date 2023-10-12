@@ -38,8 +38,8 @@ import lombok.extern.slf4j.Slf4j;
  *        0 0/10 * * * ? 
  *      (5) 반복 (7시, 19시마다 동작)
  *        0 0 7,19 * * ?
- *     4) 크론식 만들기
- *     http://www.cronmaker.com/
+ *  4. 크론식 만들기
+ *   http://www.cronmaker.com/
  */
 
 @RequiredArgsConstructor
