@@ -3,12 +3,14 @@ package com.gdu.app11.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.app11.dao.ContactDao;
 import com.gdu.app11.dto.ContactDto;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor  // private final ContactDao contactDao;에 @Autowired를 하기 위한 코드이다.
 @Service  // ContactService 타입의 객체(Bean)을 Spring Container에 저장한다.
 public class ContactServiceImpl implements ContactService {
@@ -28,25 +30,27 @@ public class ContactServiceImpl implements ContactService {
   }
 
   @Override
-  public int deleteContact(int contact_no) {
-    int deleteResult = contactDao.delete(contact_no);
+  public int deleteContact(int contactNo) {
+    int deleteResult = contactDao.delete(contactNo);
     return deleteResult;
   }
 
+  @Transactional(readOnly=true) // 조회용 (성능이점) 해당 기능은 트랜잭션이 필요없기떄문에 제외시킴
   @Override
   public List<ContactDto> getContactList() {
     return contactDao.selectList();
   }
-
+  
+  @Transactional(readOnly=true) // 조회용 (성능이점) 해당 기능은 트랜잭션이 필요없기떄문에 제외시킴
   @Override
-  public ContactDto getContactByNo(int contact_no) {
-    return contactDao.selectContactByNo(contact_no);
+  public ContactDto getContactByNo(int contactNo) {
+    return contactDao.selectContactByNo(contactNo);
   }
   
   @Override
   public void txTest() {
     
-    // AOP를 활용한 트랜잭션 처리 테스트 메소드
+    // @Transactional를 활용한 트랜잭션 처리 테스트 메소드
     
     // "성공1개+실패1개" DB처리를 동시에 수행했을 때 모두 실패로 되는지 확인하기
     
