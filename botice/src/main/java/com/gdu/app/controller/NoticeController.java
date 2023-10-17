@@ -59,5 +59,13 @@ public class NoticeController {
     int  modifyResult = noticeService.modifyNotice(noticeDto);
     redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
     return "redirect:/notice/detail.do?noticeNo=" + noticeDto.getNoticeNo();
+    
+  // 삭제하기
+    @RequestMapping(value="/notice/delete.do", method = RequestMethod.POST)
+    public String delete(@RequestParam(value="noticeNo", required=false, defaultValue="0") int noticeNo, RedirectAttributes redirectAttributes) {
+     int deleteResult = noticeService.deleteNotice(noticeNo); 
+      redirectAttributes.addFlashAttribute("deleteResult", deleteResult);
+      return "redirect:/notice/list.do";
+    }
   }
 }
