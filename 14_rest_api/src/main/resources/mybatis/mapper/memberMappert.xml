@@ -47,6 +47,26 @@
      WHERE MEMBER_NO = #{memberNo}
   </update>
   
+  <delete id="deleteMember" parameterType="int">
+      DELETE 
+       FROM MEMBER_T
+      WHERE MEMBER_NO = #{memberNo}
+  </delete>
+  
+  <!-- 동적 코드 방식 -->
+  <delete id="deleteMembers" parameterType="List">
+        DELETE 
+       FROM MEMBER_T 
+      <!--  WHERE MEMBER_NO IN(4,3)을 작성 가능한 코드를 다른방식 where 동적 구문으로 적은거다. 같은 코드의미이다.-->
+      <where> <!--  해당구문은 IF구문일떄 유용하다. -->
+        MEMBER_NO
+        <foreach collection="list" item="memberNo" open="IN(" close=")" separator=",">
+          #{memberNo}
+        </foreach>
+      </where>
+  </delete>
+  
+  
 </mapper>
 
 
