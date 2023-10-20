@@ -1,8 +1,12 @@
 package com.gdu.myhome.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,19 +49,29 @@ public class UserController {
   }
   
   @GetMapping("/join.form")
-  public String joinForm(@RequestParam (value="service", required=false, defaultValue ="off") String service
-                        ,@RequestParam(value="event", required=false, defaultValue ="off") String event
-                        , Model model) {
+  public String joinForm(@RequestParam(value="service", required=false, defaultValue="off") String service
+                       , @RequestParam(value="event", required=false, defaultValue="off") String event
+                       , Model model) {
     String rtn = null;
     if(service.equals("off")) {
-      return "redirect:/main.do";
+      rtn = "redirect:/main.do";
     } else {
-      model.addAttribute("event", event); // user 폴더 join.jsp로 전달하는 event는 "on" 또는 "off" 값을 가진다.
+      model.addAttribute("event", event);  // user 폴더 join.jsp로 전달하는 event는 "on" 또는 "off" 값을 가진다.
       rtn = "user/join";
     }
     return rtn;
   }
   
+  @GetMapping(value="/checkEmail.do", produces=MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam String email) {
+    System.out.println(email);
+    return userService.checkEmail(email);
+  }
+  
+  @GetMapping(value="/sendCode.do", produces=MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Map<String, Object>> sendCode(@RequestParam String email) {
+    return userService.sendCode(email);
+  }
   
   
   
