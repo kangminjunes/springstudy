@@ -5,9 +5,7 @@
 
 <mapper namespace="com.gdu.app.dao.NoticeMapper">  
 
-  <delete id="delete" parameterType="int">
-   DELETE FROM NOTICE_T WHERE NOTICE_NO = #{noticeNo}
-  </delete>
+
 
   <update id="modifyNotice" parameterType="NoticeDto">
     UPDATE NOTICE_T

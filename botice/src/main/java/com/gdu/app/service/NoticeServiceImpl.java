@@ -15,11 +15,7 @@ public class NoticeServiceImpl implements NoticeService {
 
   private final NoticeMapper noticeMapper;
   
-  @Override
-  public int deleteNotice(NoticeDto noticeDto) {
-    return noticeMapper.deleteNotice(noticeDto);
-  }
-  
+
   @Override
   public int modifyNotice(NoticeDto noticeDto) {
     return noticeMapper.modifyNotice(noticeDto);
