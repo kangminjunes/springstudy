@@ -29,8 +29,8 @@ public class ShopServiceImpl implements ShopService {
       query = URLEncoder.encode(query, "UTF-8");
       
       // 클라이언트 아이디, 시크릿 (네이버개발자센터에서 발급 받은 본인 정보 사용합니다.)
-      String clientId = "jRFHzWTrREsctftYPAq6";
-      String clientSecret = "9dSQdrH0QD";
+      String clientId = "RTJMyHb54a63lvLzPh7A";
+      String clientSecret = "0xR9yv0oo3";
       
       // API 주소
       String apiURL = "https://openapi.naver.com/v1/search/shop.json?query=" + query + "&display=" + display + "&sort=" + sort;

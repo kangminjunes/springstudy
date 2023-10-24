@@ -15,7 +15,7 @@
   })
 
   function fnSearch(){
-  $('#btn_search').click(function(){
+	$('#btn_search').click(function(){
       $.ajax({
         // 요청
         type: 'get',
@@ -39,7 +39,7 @@
           alert(jqXHR.responseText);
         }
       })
-  })
+	})
   }
   
 </script>
@@ -86,5 +86,6 @@
       <tbody id="products"></tbody>
     </table>
   </div>
+  
 </body>
 </html>

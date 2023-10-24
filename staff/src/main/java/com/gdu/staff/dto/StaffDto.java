@@ -1,4 +1,4 @@
-package com.gdu.app08.dto;
+package com.gdu.staff.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class MemberDto {
-  private int memberNo;
+public class StaffDto {
+  private String sno;
   private String name;
-  private double height;
-  private double weight;
+  private String dept;
+  private int   salary;
 }

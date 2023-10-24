@@ -2,24 +2,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.gdu</groupId>
-  <artifactId>myhome</artifactId>
-  <name>15_myhome</name>
-  <packaging>war</packaging>
-  <version>1.0.0-BUILD-SNAPSHOT</version>
-
-  <properties>
-    <java-version>11</java-version>
-    <org.springframework-version>5.3.3</org.springframework-version>
-    <org.aspectj-version>1.9.6</org.aspectj-version>
-    <org.slf4j-version>2.0.7</org.slf4j-version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-  </properties>
-
-  <dependencies>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.gdu</groupId>
+    <artifactId>myhome</artifactId>
+    <name>15_myhome</name>
+    <packaging>war</packaging>
+    <version>1.0.0-BUILD-SNAPSHOT</version>
+  
+    <properties>
+      <java-version>11</java-version>
+      <org.springframework-version>5.3.3</org.springframework-version>
+      <org.aspectj-version>1.9.6</org.aspectj-version>
+      <org.slf4j-version>2.0.7</org.slf4j-version>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+  
+    <dependencies>
     
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20231013</version>
+    </dependency>
+   
     <!--  Random String 생성(이메일 인증코드 생성) -->
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
     <dependency>
