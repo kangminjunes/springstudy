@@ -10,11 +10,27 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
 
-  $(() => {
-	fnRegisterStaff();
-	 fnInit();
-	 fnGetAllStaff();
-  })
+$(() => {
+	  fnRegisterStaff();
+	  fnInit();
+	  fnGetAllStaff();
+	  fnGetStaff();
+	  
+	  $('#btn_query').click(() => {
+	    const querySno = $('#query').val();
+	    if (querySno) {
+	      fnGetStaff(querySno);
+	    } else {
+	      alert('사원번호를 입력하세요.');
+	    }
+	  });
+
+	  $('#btn_list').click(() => {
+	    fnGetAllStaff();
+	  });
+	});
+	
+	
   
   const fnRegisterStaff = () => {
 	$('#btn_register').click(() =>{
@@ -48,26 +64,51 @@
 	  $('#dept').val('');
   }
   
-  function fnGetAllStaff() {
-	    $.ajax({
-	      type: 'GET',
-	      url: '${contextPath}/staffList', 
-	      dataType: 'json',
-	      success: function (resData) {
-	        $('#staff_list').empty();
-	        $.each(resData.staffList, function (i, staff) {
-	          var tr = '<tr>';
-	          tr += '<td>' + staff.sno + '</td>';
-	          tr += '<td>' + staff.name + '</td>';
-	          tr += '<td>' + staff.dept + '</td>';
-	          tr += '<td>' + staff.salary + '</td>';
-	          tr += '</tr>';
-	          $('#staff_list').append(tr);
-	        });
-	      }
-	    });
-	  }
-  
+  const fnGetAllStaff = () => {
+	  $.ajax({
+	    type: 'GET',
+	    url: `${contextPath}/staffList`,
+	    dataType: 'json',
+	    success: function (resData) {
+	      $('#staff_list').empty();
+	      $.each(resData.staffList, function (i, staff) {
+	        var tr = '<tr>';
+	        tr += '<td>' + staff.sno + '</td>';
+	        tr += '<td>' + staff.name + '</td>';
+	        tr += '<td>' + staff.dept + '</td>';
+	        tr += '<td>' + staff.salary + '</td>';
+	        tr += '</tr>';
+	        $('#staff_list').append(tr);
+	      });
+	    }
+	  });
+	};
+	
+  const fnGetStaff = (sno) => {
+  	  $.ajax({
+  	    type: 'GET',
+  	    url: `${contextPath}/staffList/${sno}`,
+  	    dataType: 'json',
+  	    success: (resData) => {
+  	      if (resData.error) {
+  	        alert(resData.error);
+  	      } else {
+  	        $('#staff_list').empty();
+  	        var tr = '<tr>';
+  	        tr += '<td>' + resData.staff.sno + '</td>';
+  	        tr += '<td>' + resData.staff.name + '</td>';
+  	        tr += '<td>' + resData.staff.dept + '</td>';
+  	        tr += '<td>' + resData.staff.salary + '</td>';
+  	        tr += '</tr>';
+  	        $('#staff_list').append(tr);
+  	      }
+  	    },
+  	    error: (jqXHR) => {
+  	      alert('조회된 사원의 정보가 없습니다.');
+  	    }
+  	  });
+  	};
+	
 
 </script>
 </head>
