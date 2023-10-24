@@ -8,7 +8,7 @@
   <select id="getStaffList" resultType= "StaffDto">
       SELECT SNO, NAME, DEPT, SALARY
         FROM STAFF 
-       OREDER BY SNO DESC
+       ORDER BY SNO DESC
   </select>
   
   <select id ="getStaff" parameterType="String" resultType="StaffDto">

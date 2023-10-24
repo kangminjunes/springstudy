@@ -12,6 +12,8 @@
 
   $(() => {
 	fnRegisterStaff();
+	 fnInit();
+	 fnGetAllStaff();
   })
   
   const fnRegisterStaff = () => {
@@ -24,8 +26,8 @@
 		success: (resData) => {
 		  if(resData.addResult === 1){
 			alert('사원 등록이 성공했습니다.');
-			// fnGetStaffList();
-			// fnInit();
+			fnGetAllStaff();
+			fnInit();
 		  } else{
 			 alert('사원 등록이 실패했습니다.');
 		  }
@@ -38,6 +40,34 @@
 	  })
 	})
   }
+  
+  // 입력란 초기화
+  function fnInit(){
+	  $('#sno').val('');
+	  $('#name').val('');
+	  $('#dept').val('');
+  }
+  
+  function fnGetAllStaff() {
+	    $.ajax({
+	      type: 'GET',
+	      url: '${contextPath}/staffList', 
+	      dataType: 'json',
+	      success: function (resData) {
+	        $('#staff_list').empty();
+	        $.each(resData.staffList, function (i, staff) {
+	          var tr = '<tr>';
+	          tr += '<td>' + staff.sno + '</td>';
+	          tr += '<td>' + staff.name + '</td>';
+	          tr += '<td>' + staff.dept + '</td>';
+	          tr += '<td>' + staff.salary + '</td>';
+	          tr += '</tr>';
+	          $('#staff_list').append(tr);
+	        });
+	      }
+	    });
+	  }
+  
 
 </script>
 </head>

@@ -1,6 +1,7 @@
 package com.gdu.staff.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -32,4 +33,8 @@ public class StaffServiceImpl implements StaffService {
     }
   }
   
+  public Map<String, Object> getAllStaff() {
+    List<StaffDto> staffList = staffMapper.getStaffList();
+    return Map.of("staffList", staffList);
+}
 }
