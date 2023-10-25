@@ -37,11 +37,5 @@ public class FreeController {
     freeService.loadFreeList(request, model);
     return "free/list";
   }
-  
-  
-  
-  
-  
-  
-  
+    
 }
