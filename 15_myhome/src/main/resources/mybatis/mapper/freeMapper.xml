@@ -157,17 +157,21 @@
       , STATE
       , PW_MODIFIED_AT
       , JOINED_AT
-    ) VALUES(
+    ) VALUES (
         USER_SEQ.NEXTVAL
-     ,  #{email}
-     ,  #{name}   
-     ,  #{gender}   
-     ,  #{mobile}   
-     ,  #{agree}
-     ,  1   
-     ,  SYSDATE   
-     ,  SYSDATE   
+      , #{email}
+      , #{name}
+      , #{gender}
+      , #{mobile}
+      , #{agree}
+      , 1
+      , SYSDATE
+      , SYSDATE
     )
   </insert>
+  
+  
+  
+  
 
 </mapper>
