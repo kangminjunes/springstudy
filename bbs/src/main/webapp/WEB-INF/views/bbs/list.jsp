@@ -28,21 +28,18 @@
   <div class="paging">${paging}</div>
   
   <script>
-
-  
+	/*  
   	$('.bbs').click(function(){
     	// 클릭한 대상 : 이벤트대상
     	let bbsNo = $(this).data('bbs_no');
   		alert(bbsNo);
   	})
-  
-	/*
+  	*/  
   	$('.bbs').click((ev) => {
   		// 클릭한 대상 : 이벤트 대상 (이벤트 객체의 target 속성)
     	 let bbsNo = $(ev.target).data('bbs_no');
   		alert(bbsNo);
   	})
-  	*/
   </script>
     
 </body>
