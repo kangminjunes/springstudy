@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class BbsServiceImpl implements BbsService {
 
   private final BbsMapper bbsMapper;
-  private final MyPageUtils mypageUtils; 
+  private final MyPageUtils myPageUtils;
   
   @Override
   public void loadBbsList(HttpServletRequest request, Model model) {
@@ -30,21 +30,45 @@ public class BbsServiceImpl implements BbsService {
     int page = Integer.parseInt(strPage);
     
     int total = bbsMapper.getBbsCount();
-        
+    
     int display = 10;
     
-    mypageUtils.setPaging(page, total, display);
+    myPageUtils.setPaging(page, total, display);
     
-    Map<String, Object> map = Map.of("begin", mypageUtils.getBegin()
-                                   , "end", mypageUtils.getEnd());
-   
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
     List<BbsDto> bbsList = bbsMapper.getBbsList(map);
     
     model.addAttribute("bbsList", bbsList);
     
     String contextPath = request.getContextPath();
-    model.addAttribute("paging", mypageUtils.getMvcPaging(contextPath + "/bbs/list.do"));
+    model.addAttribute("paging", myPageUtils.getMvcPaging(contextPath + "/bbs/list.do"));
     model.addAttribute("total", total);
+    
   }
+  
+  @Override
+  public BbsDto getBbs(int bbsNo) {
+    BbsDto bbs = bbsMapper.getBbs(bbsNo);
+    return bbs;
+  }
+  
+  @Override
+  public int addBbs(BbsDto bbs) {
+    return bbsMapper.insertBbs(bbs);    
+  }
+  
+  public int modifyBbs(BbsDto bbs) {
+    return bbsMapper.updateBbs(bbs);
+  };
+  
+  @Override
+  public int removeBbs(int bbsNo) {
+    return bbsMapper.deleteBbs(bbsNo);
+  }
+  
+  
+  
   
 }

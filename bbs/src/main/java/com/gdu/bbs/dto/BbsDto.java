@@ -1,6 +1,6 @@
 package com.gdu.bbs.dto;
 
-import java.security.Timestamp;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +14,6 @@ public class BbsDto {
   private String editor;
   private String title;
   private String contents;
-  private Timestamp createdAt;
-  private Timestamp modifiedAt;
+  private Date createdAt;
+  private Date modifiedAt;
 }
