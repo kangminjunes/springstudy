@@ -54,13 +54,13 @@ public class BbsController {
   }
   
   
-  // delete는 redurectAttributes에 저장한 뒤 redirect한다.
+  // delete는 redirectAttribute에 저장한 뒤 redirect한다.
   @PostMapping("/remove.do")
-  public String removeBbs(@RequestParam(value="bbsNo", required=false, defaultValue="0") int bbsNo
+  public String remove(@RequestParam(value="bbsNo", required=false, defaultValue="0") int bbsNo
                      , RedirectAttributes attr) {
-   int removeResult = bbsService.removeBbs(bbsNo);
-   attr.addFlashAttribute("removeResult", removeResult);
-   return"bbs/list";
+    int removeResult = bbsService.removeBbs(bbsNo);
+    attr.addFlashAttribute("removeResult", removeResult);
+    return "redirect:/list.do";
   }
    
 }
