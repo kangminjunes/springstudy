@@ -16,6 +16,19 @@
      ORDER  BY NO ASC
   </select> 
   
+<select id="getSearchMovieCount" parameterType="Map" resultType="int">
+    SELECT COUNT(*)
+    FROM MOVIE
+    WHERE TITLE = #{title}
+</select>
+
+<select id="getSearchMovieList" parameterType="Map" resultType="MovieDto">
+    SELECT NO, TITLE, GENRE, DESCRIPTION, STAR
+    FROM MOVIE
+    WHERE TITLE = #{title}
+</select>
+
+  
 </mapper>
 
 

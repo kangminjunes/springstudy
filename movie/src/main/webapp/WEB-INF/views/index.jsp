@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
@@ -41,47 +40,66 @@
     </table>  
   </div>
   
-  <script>
-  
-	 const fnMovieList = () => {
-		$.ajax({
-			type: 'get',
-			url: '${contextPath}/searchAllMovies',
-			dataType: 'json',
-			success: (resData) => {
-			  alert(resData.message);
-			  $('#movie_list').empty();
-			  $.each(resData.list, (i, movie) => {
-				let str ='<tr>';
-				str += '<td>' + movie.title + '</td>';
-				str += '<td>' + movie.genre + '</td>';
-				str += '<td>' + movie.description + '</td>';
-				str += '<td>' + movie.star + '</td>';
-				str += '</tr>';
-				$('#movie_list').append(str);
-			  })
-			}
-		})	 
-	 } 
-	 
-	 const fnInit = () => {
-	   $('#btn_init').click(() => {
-		   $('#column').val('');
-		   $('#searchText').val('');
-		   fnMovieList();
-	   })
-	 }
-  	
-	 const fnMovieSearch = () => {
-		$('#btn_search').click(() => {
-		  
-		})	 
-	 }
-	 
-	 fnMovieList();
-	 fnInit();
-	 fnMovieSearch();
-  </script>
+<script>
+    const fnMovieList = () => {
+        $.ajax({
+            type: 'get',
+            url: '${contextPath}/searchAllMovies',
+            dataType: 'json',
+            success: (resData) => {
+                alert(resData.message);
+                $('#movie_list').empty();
+                $.each(resData.list, (i, movie) => {
+                    let str ='<tr>';
+                    str += '<td>' + movie.title + '</td>';
+                    str += '<td>' + movie.genre + '</td>';
+                    str += '<td>' + movie.description + '</td>';
+                    str += '<td>' + movie.star + '</td>';
+                    str += '</tr>';
+                    $('#movie_list').append(str);
+                })
+            }
+        });
+    };
+
+    const fnInit = () => {
+        $('#btn_init').click(() => {
+            $('#column').val('');
+            $('#searchText').val('');
+            fnMovieList();
+        });
+    };
+
+    const fnMovieSearch = () => {
+        $('#btn_search').click(() => {
+            $.ajax({
+                type: 'get',
+                url: '${contextPath}/searchMovies',
+                data: {
+                    title: $('#searchText').val()
+                },
+                dataType: 'json',
+                success: (resData) => {
+                    $('#movie_list').empty();
+                    $.each(resData.list, (i, movie) => {
+                        let str ='<tr>';
+                        str += '<td>' + movie.title + '</td>';
+                        str += '<td>' + movie.genre + '</td>';
+                        str += '<td>' + movie.description + '</td>';
+                        str += '<td>' + movie.star + '</td>';
+                        str += '</tr>';
+                        $('#movie_list').append(str);
+                    });
+                }
+            });
+        });
+    };
+
+    fnMovieList();
+    fnInit();
+    fnMovieSearch();
+</script>
+
 
 </body>
 </html>

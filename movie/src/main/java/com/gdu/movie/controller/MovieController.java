@@ -3,6 +3,7 @@ package com.gdu.movie.controller;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gdu.movie.service.MovieService;
@@ -20,5 +21,11 @@ public class MovieController {
     return movieService.getMovieList();
   }
   
+
+  @GetMapping(value="/searchMovies", produces="application/json")
+  public Map<String, Object> searchMovies(@RequestParam String title) {
+      return movieService.getSearchMovieList(title);
+  }
+
   
 }
