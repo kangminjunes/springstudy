@@ -84,16 +84,28 @@
   <div id="paging"></div>
   
   <script>
-      
+    
+    const fnContentsClick = () => {
+    	$('#contents').click(() => {
+        if('${sessionScope.user}' === ''){
+          if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+            location.href = '${contextPath}/user/login.form';
+          } else {
+            return;
+          }
+        }
+    	})
+    }
+  
     const fnCommentAdd = () => {
       $('#btn_comment_add').click(() => {
         if('${sessionScope.user}' === ''){
-            if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
-              location.href = '${contextPath}/user/login.form';
-            } else {
-              return;
-            }
-          }   	  
+          if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+            location.href = '${contextPath}/user/login.form';
+          } else {
+            return;
+          }
+        }
         $.ajax({
           // 요청
           type: 'post',
@@ -179,14 +191,14 @@
     }
     
     const fnBlind = () => {
-  	$(document).on('click', '.btn_open_reply', (ev) => {
+    	$(document).on('click', '.btn_open_reply', (ev) => {
         if('${sessionScope.user}' === ''){
-            if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
-              location.href = '${contextPath}/user/login.form';
-            } else {
-              return;
-            }
-          }    		
+          if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+            location.href = '${contextPath}/user/login.form';
+          } else {
+            return;
+          }
+        }
         var blindTarget = $(ev.target).parent().next();
         if(blindTarget.hasClass('blind')){
         	$('.frm_add_reply_wrap').addClass('blind');  // 모든 답글 입력화면 닫기
@@ -200,12 +212,12 @@
     const fnCommentReplyAdd = () => {
       $(document).on('click', '.btn_add_reply', (ev) => {
         if('${sessionScope.user}' === ''){
-            if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
-              location.href = '${contextPath}/user/login.form';
-            } else {
-              return;
-            }
-          }   	  
+          if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+            location.href = '${contextPath}/user/login.form';
+          } else {
+            return;
+          }
+        }
         var frmAddReply = $(ev.target).closest('.frm_add_reply');
         $.ajax({
           // 요청
@@ -251,6 +263,7 @@
       })
     }
     
+    fnContentsClick();
     fnCommentAdd();
     fnCommentList();
     fnBlind();
@@ -277,9 +290,11 @@
           <button type="button" class="btn_add_reply">답글작성완료</button>
         </form>
       </div>
+      
+      // 댓글 작성자만 삭제
       <div>
         <input type="hidden" value="commentNo값">
-        <button type="button" class="btn_remove_comment">삭제</button>
+        <i class="fa-regular fa-circle-xmark ico_remove_comment"></i>
       </div>
       
     </div>
