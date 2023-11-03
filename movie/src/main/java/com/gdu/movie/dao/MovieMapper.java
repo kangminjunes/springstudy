@@ -9,9 +9,8 @@ import com.gdu.movie.dto.MovieDto;
 
 @Mapper
 public interface MovieMapper {
-  public int getMovieCount();
-  public List<MovieDto> getMovieList();
-  
-  public int getSearchMovieCount(Map<String, Object> map);
-  public List<MovieDto> getSearchMovieList(Map<String, Object> map);
+    int getMovieCount();
+    List<MovieDto> getMovieList();
+    int getSearchMovieCount(Map<String, Object> map);
+    List<MovieDto> getSearchMovieList(Map<String, Object> map);
 }

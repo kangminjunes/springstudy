@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -28,7 +29,7 @@ import net.coobird.thumbnailator.Thumbnails;
 @Service
 public class UploadServiceImpl implements UploadService {
 
-  private final UploadMapper uploadMapper;
+  private final UploadMapper uploadMapper;  
   private final MyFileUtils myFileUtils;
   private final MyPageUtils myPageUtils;
   
@@ -126,7 +127,16 @@ public class UploadServiceImpl implements UploadService {
   }
   
   
-  
+   @Transactional(readOnly= true)
+   @Override
+   public void loadUpload(HttpServletRequest request, Model model) {
+     
+     Optional<String> opt = Optional.ofNullable(request.getParameter("uploadNo"));
+     int uploadNo = Integer.parseInt(opt.orElse("0"));
+     
+     model.addAttribute("upload", uploadMapper.getUpload(uploadNo));
+     model.addAttribute("attachList", uploadMapper.getAttachList(uploadNo));
+   }
   
   
   

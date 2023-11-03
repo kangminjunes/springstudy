@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
@@ -11,19 +12,19 @@
 <body>
 
   <div>
-    <form id="frm_serarch">    
+    <form id="frm_search">    
       <select name="column" id="column">
         <option value="">선택하세요</option>
         <option value="TITLE">제목</option>
         <option value="GENRE">장르</option>
         <option value="DESCRIPTION">내용</option>
       </select>
-      <input type="text" name="searchText" id="searchText">
+      <input type="text" name="searchText" id="searText">
       <button type="button" id="btn_search">검색</button>
       <button type="button" id="btn_init">초기화</button>
     </form>
   </div>
-
+  
   <hr>
   
   <div>
@@ -37,7 +38,7 @@
         </tr>
       </thead>
       <tbody id="movie_list"></tbody>
-    </table>  
+    </table>
   </div>
   
 <script>
@@ -99,7 +100,5 @@
     fnInit();
     fnMovieSearch();
 </script>
-
-
 </body>
 </html>

@@ -16,6 +16,8 @@
      ORDER  BY NO ASC
   </select> 
   
+<!-- MovieMapper.xml -->
+
 <select id="getSearchMovieCount" parameterType="Map" resultType="int">
     SELECT COUNT(*)
     FROM MOVIE
