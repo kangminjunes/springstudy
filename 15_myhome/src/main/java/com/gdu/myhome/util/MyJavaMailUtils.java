@@ -20,8 +20,8 @@ import org.springframework.stereotype.Component;
  * 
  * 1. 구글에 로그인한다.
  * 2. [계정] - [보안]
- * 3. [2단계 인증] - [앱 비밀번호] - [App name] : my home 입력(이름은 자유롭게 본인이 설정)
- * 4. 생성된 비밀번호를 복사해서 email.properties 파일에 붙여넣기를 하면된다.
+ * 3. [2단계 인증] - [앱 비밀번호] - [App name] : myhome 입력
+ * 4. 생성된 비밀번호를 복사해서 email.properties 파일에 붙여넣기한다.
  */
 
 @PropertySource(value="classpath:email.properties")
@@ -35,10 +35,10 @@ public class MyJavaMailUtils {
     
     try {
       
-      // Properties 객체 생성 
+      // Properties 객체 생성 (이메일 보내는 호스트 정보)
       Properties properties = new Properties();
       properties.put("mail.smtp.host", env.getProperty("spring.mail.host"));
-      properties.put("mail.smtp.port", env.getProperty("spring.mail.port"));
+      properties.put("mail.smtp.port", env.getProperty("spring.mail.host"));
       properties.put("mail.smtp.auth", env.getProperty("spring.mail.properties.mail.smtp.auth"));
       properties.put("mail.smtp.starttls.enable", env.getProperty("spring.mail.properties.mail.smtp.starttls.enable"));
       
@@ -50,7 +50,7 @@ public class MyJavaMailUtils {
         }
       });
       
-      // 메일 만들기 (보내는사람 + 받는 사람 + 제목 + 내용)
+      // 메일 만들기 (보내는 사람 + 받는 사람 + 제목 + 내용)
       MimeMessage mimeMessage = new MimeMessage(session);
       mimeMessage.setFrom(new InternetAddress(env.getProperty("spring.mail.username"), "사이트관리자"));
       mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));

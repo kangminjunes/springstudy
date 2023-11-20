@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
   private final MySecurityUtils mySecurityUtils;
   private final MyJavaMailUtils myJavaMailUtils;
   
-  private final String client_id = "jRFHzWTrREsctftYPAq6";
-  private final String client_secret = "9dSQdrH0QD";
+  private final String client_id = "RTJMyHb54a63lvLzPh7A";
+  private final String client_secret = "0xR9yv0oo3";
   
   @Override
   public void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -238,16 +238,13 @@ public class UserServiceImpl implements UserService {
       e.printStackTrace();
     }
     
-    
   }
-  
+
   @Override
   public void naverLogin(HttpServletRequest request, HttpServletResponse response, UserDto naverProfile) throws Exception {
     
     String email = naverProfile.getEmail();
-    UserDto user =  userMapper.getUser(Map.of("email", email));
-    
-    // 네이버 로그인 4번
+    UserDto user = userMapper.getUser(Map.of("email", email));
     
     if(user != null) {
       request.getSession().setAttribute("user", user);
@@ -262,6 +259,7 @@ public class UserServiceImpl implements UserService {
       out.flush();
       out.close();
     }
+    
   }
   
   @Override
@@ -528,8 +526,10 @@ public class UserServiceImpl implements UserService {
     }
     
   }
+
   
 }
+
 
 
 

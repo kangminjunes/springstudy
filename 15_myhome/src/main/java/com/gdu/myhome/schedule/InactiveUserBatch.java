@@ -13,9 +13,9 @@ public class InactiveUserBatch {
 
   private final UserService userService;
   
-  @Scheduled(cron="0 0 0 1/1 * ?")  // 매일 자정에 동작 
+  @Scheduled(cron="0 0 0 1/1 * ?")  // 매일 자정에 동작
   public void execute() {
-    userService.inactiveUserBatch();  
+    userService.inactiveUserBatch();
   }
   
 }

@@ -13,7 +13,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -41,7 +40,7 @@ import net.coobird.thumbnailator.Thumbnails;
 @Service
 public class UploadServiceImpl implements UploadService {
 
-  private final UploadMapper uploadMapper;  
+  private final UploadMapper uploadMapper;
   private final MyFileUtils myFileUtils;
   private final MyPageUtils myPageUtils;
   
@@ -60,7 +59,7 @@ public class UploadServiceImpl implements UploadService {
                                   .build())
                         .build();
     
-    int UploadCount = uploadMapper.insertUpload(upload);
+    int uploadCount = uploadMapper.insertUpload(upload);
     
     List<MultipartFile> files = multipartRequest.getFiles("files");
     
@@ -114,10 +113,11 @@ public class UploadServiceImpl implements UploadService {
       
     }  // for
     
-    return (UploadCount == 1) && (files.size() == attachCount);
+    return (uploadCount == 1) && (files.size() == attachCount);
     
   }
   
+  @Transactional(readOnly=true)
   @Override
   public Map<String, Object> getUploadList(HttpServletRequest request) {
     
@@ -128,8 +128,8 @@ public class UploadServiceImpl implements UploadService {
     
     myPageUtils.setPaging(page, total, display);
     
-    Map<String , Object> map = Map.of("begin", myPageUtils.getBegin()
-                                    , "end", myPageUtils.getEnd());
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
     
     List<UploadDto> uploadList = uploadMapper.getUploadList(map);
     
@@ -138,18 +138,17 @@ public class UploadServiceImpl implements UploadService {
     
   }
   
-  
-   @Transactional(readOnly= true)
-   @Override
-   public void loadUpload(HttpServletRequest request, Model model) {
-     
-     Optional<String> opt = Optional.ofNullable(request.getParameter("uploadNo"));
-     int uploadNo = Integer.parseInt(opt.orElse("0"));
-     
-     model.addAttribute("upload", uploadMapper.getUpload(uploadNo));
-     model.addAttribute("attachList", uploadMapper.getAttachList(uploadNo));
-   }
-  
+  @Transactional(readOnly=true)
+  @Override
+  public void loadUpload(HttpServletRequest request, Model model) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("uploadNo"));
+    int uploadNo = Integer.parseInt(opt.orElse("0"));
+    
+    model.addAttribute("upload", uploadMapper.getUpload(uploadNo));
+    model.addAttribute("attachList", uploadMapper.getAttachList(uploadNo));
+    
+  }
   
   @Override
   public ResponseEntity<Resource> download(HttpServletRequest request) {
@@ -162,7 +161,7 @@ public class UploadServiceImpl implements UploadService {
     File file = new File(attach.getPath(), attach.getFilesystemName());
     Resource resource = new FileSystemResource(file);
     
-    // 첨부 파일 없으면 다운로드 취소
+    // 첨부 파일이 없으면 다운로드 취소
     if(!resource.exists()) {
       return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
     }
@@ -170,18 +169,18 @@ public class UploadServiceImpl implements UploadService {
     // 다운로드 횟수 증가하기
     uploadMapper.updateDownloadCount(attachNo);
     
-    // 사용자가 다운로드 받을 파일의 이름 결정(User-Agent)값에 따른 인코딩 처리) 나중에 필요히 그대로 복붙 가능
+    // 사용자가 다운로드 받을 파일의 이름 결정 (User-Agent값에 따른 인코딩 처리)
     String originalFilename = attach.getOriginalFilename();
     String userAgent = request.getHeader("User-Agent");
     try {
       // IE
       if(userAgent.contains("Trident")) {
-        originalFilename = URLEncoder.encode(originalFilename, "UTF-8").replace("+", " ");   
+        originalFilename = URLEncoder.encode(originalFilename, "UTF-8").replace("+", " ");
       }
       // Edge
       else if(userAgent.contains("Edg")) {
         originalFilename = URLEncoder.encode(originalFilename, "UTF-8");
-      } 
+      }
       // Other
       else {
         originalFilename = new String(originalFilename.getBytes("UTF-8"), "ISO-8859-1");
@@ -190,11 +189,11 @@ public class UploadServiceImpl implements UploadService {
       e.printStackTrace();
     }
     
-    // 다운로드 응답 헤더 만들기 
+    // 다운로드 응답 헤더 만들기
     HttpHeaders header = new HttpHeaders();
     header.add("Content-Type", "application/octet-stream");
-    header.add("content-Disposition", "attachment; filename=" + originalFilename);
-    header.add("content-Length",file.length() + "");
+    header.add("Content-Disposition", "attachment; filename=" + originalFilename);
+    header.add("Content-Length", file.length() + "");
     
     // 응답
     return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
@@ -213,7 +212,7 @@ public class UploadServiceImpl implements UploadService {
       return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
     }
     
-    // zip 파일을 생성할 경로 
+    // zip 파일을 생성할 경로
     File tempDir = new File(myFileUtils.getTempPath());
     if(!tempDir.exists()) {
       tempDir.mkdirs();
@@ -257,21 +256,20 @@ public class UploadServiceImpl implements UploadService {
       
     } catch (Exception e) {
       e.printStackTrace();
-    }    
+    }
     
     // 다운로드할 zip 파일의 File 객체 -> Resource 객체
     Resource resource = new FileSystemResource(zipFile);
     
-    
-    // 다운로드 응답 헤더 만들기 
+    // 다운로드 응답 헤더 만들기
     HttpHeaders header = new HttpHeaders();
     header.add("Content-Type", "application/octet-stream");
-    header.add("content-Disposition", "attachment; filename=" + zipName);
-    header.add("content-Length", zipFile.length() + "");
+    header.add("Content-Disposition", "attachment; filename=" + zipName);
+    header.add("Content-Length", zipFile.length() + "");
     
     // 응답
     return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
-
+    
   }
   
   @Override
@@ -285,8 +283,135 @@ public class UploadServiceImpl implements UploadService {
     }
   }
   
+  @Transactional(readOnly=true)
+  @Override
+  public UploadDto getUpload(int uploadNo) {
+    return uploadMapper.getUpload(uploadNo);
+  }
   
+  @Override
+  public int modifyUpload(UploadDto upload) {
+    return uploadMapper.updateUpload(upload);
+  }
   
+  @Override
+  public Map<String, Object> getAttachList(HttpServletRequest request) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("uploadNo"));
+    int uploadNo = Integer.parseInt(opt.orElse("0"));
+    
+    return Map.of("attachList", uploadMapper.getAttachList(uploadNo));
+    
+  }
   
+  @Override
+  public Map<String, Object> removeAttach(HttpServletRequest request) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("attachNo"));
+    int attachNo = Integer.parseInt(opt.orElse("0"));
+    
+    // 파일 삭제
+    AttachDto attach = uploadMapper.getAttach(attachNo);
+    File file = new File(attach.getPath(), attach.getFilesystemName());
+    if(file.exists()) {
+      file.delete();
+    }
+    
+    // 썸네일 삭제
+    if(attach.getHasThumbnail() == 1) {
+      File thumbnail = new File(attach.getPath(), "s_" + attach.getFilesystemName());
+      if(thumbnail.exists()) {
+        thumbnail.delete();
+      }
+    }
+    
+    // ATTACH_T 삭제
+    int removeResult = uploadMapper.deleteAttach(attachNo);
+    
+    return Map.of("removeResult", removeResult);
+    
+  }
+  
+  @Override
+  public Map<String, Object> addAttach(MultipartHttpServletRequest multipartRequest) throws Exception {
+    
+    List<MultipartFile> files =  multipartRequest.getFiles("files");
+    
+    int attachCount;
+    if(files.get(0).getSize() == 0) {
+      attachCount = 1;
+    } else {
+      attachCount = 0;
+    }
+    
+    for(MultipartFile multipartFile : files) {
+      
+      if(multipartFile != null && !multipartFile.isEmpty()) {
+        
+        String path = myFileUtils.getUploadPath();
+        File dir = new File(path);
+        if(!dir.exists()) {
+          dir.mkdirs();
+        }
+        
+        String originalFilename = multipartFile.getOriginalFilename();
+        String filesystemName = myFileUtils.getFilesystemName(originalFilename);
+        File file = new File(dir, filesystemName);
+        
+        multipartFile.transferTo(file);
+        
+        String contentType = Files.probeContentType(file.toPath());  // 이미지의 Content-Type은 image/jpeg, image/png 등 image로 시작한다.
+        int hasThumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
+        
+        if(hasThumbnail == 1) {
+          File thumbnail = new File(dir, "s_" + filesystemName);  // small 이미지를 의미하는 s_을 덧붙임
+          Thumbnails.of(file)
+                    .size(100, 100)      // 가로 100px, 세로 100px
+                    .toFile(thumbnail);
+        }
+        
+        AttachDto attach = AttachDto.builder()
+                            .path(path)
+                            .originalFilename(originalFilename)
+                            .filesystemName(filesystemName)
+                            .hasThumbnail(hasThumbnail)
+                            .uploadNo(Integer.parseInt(multipartRequest.getParameter("uploadNo")))
+                            .build();
+        
+        attachCount += uploadMapper.insertAttach(attach);
+        
+      }  // if
+      
+    }  // for
+    
+    return Map.of("attachResult", files.size() == attachCount);
+    
+  }
+  
+  @Override
+  public int removeUpload(int uploadNo) {
+    
+    // 파일 삭제
+    List<AttachDto> attachList = uploadMapper.getAttachList(uploadNo);
+    for(AttachDto attach : attachList) {
+      
+      File file = new File(attach.getPath(), attach.getFilesystemName());
+      if(file.exists()) {
+        file.delete();
+      }
+      
+      if(attach.getHasThumbnail() == 1) {
+        File thumbnail = new File(attach.getPath(), "s_" + attach.getFilesystemName());
+        if(thumbnail.exists()) {
+          thumbnail.delete();
+        }
+      }
+      
+    }
+    
+    // UPLOAD_T 삭제
+    return uploadMapper.deleteUpload(uploadNo);
+    
+  }
   
 }

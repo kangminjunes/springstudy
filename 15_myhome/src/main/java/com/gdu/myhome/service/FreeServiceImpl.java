@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.mail.search.IntegerComparisonTerm;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
@@ -42,29 +41,29 @@ public class FreeServiceImpl implements FreeService {
     return freeMapper.insertFree(free);
     
   }
-  
+
   @Transactional(readOnly=true)
   @Override
   public void loadFreeList(HttpServletRequest request, Model model) {
     
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-    int page =  Integer.parseInt(opt.orElse("1"));
+    int page = Integer.parseInt(opt.orElse("1"));
     
-    int display =10;
+    int display = 10;
     
     int total = freeMapper.getFreeCount();
     
     myPageUtils.setPaging(page, total, display);
     
     Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
-                                  ,  "end"  , myPageUtils.getEnd()); 
+                                   , "end", myPageUtils.getEnd());
     
-   List<FreeDto> freeList = freeMapper.getFreeList(map);
-   
-   model.addAttribute("freeList", freeList);
-   model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/free/list.do"));
-   model.addAttribute("beginNo", total - (page-1) * display);
-   
+    List<FreeDto> freeList = freeMapper.getFreeList(map);
+    
+    model.addAttribute("freeList", freeList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/free/list.do"));
+    model.addAttribute("beginNo", total - (page - 1) * display);
+    
   }
   
   @Override
@@ -79,7 +78,7 @@ public class FreeServiceImpl implements FreeService {
     int groupNo = Integer.parseInt(request.getParameter("groupNo"));
     int groupOrder = Integer.parseInt(request.getParameter("groupOrder"));
     
-    // 원글 DTO
+    // 원글DTO 
     // 기존댓글업데이트(원글DTO)
     FreeDto free = FreeDto.builder()
                     .groupNo(groupNo)
@@ -106,15 +105,14 @@ public class FreeServiceImpl implements FreeService {
   public int removeFree(int freeNo) {
     return freeMapper.deleteFree(freeNo);
   }
-   
+  
   @Transactional(readOnly=true)
   @Override
   public void loadSearchList(HttpServletRequest request, Model model) {
-    
+  
     String column = request.getParameter("column");
     String query = request.getParameter("query");
     
-    // 검색 결과 개수 구하기
     Map<String, Object> map = new HashMap<>();
     map.put("column", column);
     map.put("query", query);
@@ -125,7 +123,7 @@ public class FreeServiceImpl implements FreeService {
     String strPage = opt.orElse("1");
     int page = Integer.parseInt(strPage);
     
-    int display =10;
+    int display = 10;
     
     myPageUtils.setPaging(page, total, display);
     
@@ -135,8 +133,9 @@ public class FreeServiceImpl implements FreeService {
     List<FreeDto> freeList = freeMapper.getSearchList(map);
     
     model.addAttribute("freeList", freeList);
-    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/free/search.do" ,"column=" + column + "&query=" + query));
-    model.addAttribute("beginNo", total - (page-1) * display);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/free/search.do", "column=" + column + "&query=" + query));
+    model.addAttribute("beginNo", total - (page - 1) * display);
+    
   }
-   
+  
 }

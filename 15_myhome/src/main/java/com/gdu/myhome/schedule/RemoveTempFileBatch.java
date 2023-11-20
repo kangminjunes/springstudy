@@ -13,7 +13,7 @@ public class RemoveTempFileBatch {
 
   private final UploadService uploadService;
   
-  @Scheduled(cron="0 0 12 * * ?")   // 매일 12시 기준으로 필요없는 압축 파일을 삭제한다.
+  @Scheduled(cron="0 15 16 * * ?")
   public void execute() {
     uploadService.removeTempFiles();
   }

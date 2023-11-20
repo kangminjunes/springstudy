@@ -54,8 +54,8 @@ public class FreeController {
   }
   
   @GetMapping("/search.do")
-  public String serarch(HttpServletRequest request, Model model) {
-    freeService.loadSearchList(request,model);
+  public String search(HttpServletRequest request, Model model) {
+    freeService.loadSearchList(request, model);
     return "free/list";
   }
   

@@ -14,7 +14,7 @@ public class CommentDto {
   private String contents;
   private int blogNo;
   private String createdAt;
-  private int status;  
+  private int status;
   private int depth;
   private int groupNo;
   private UserDto userDto;  // private int userNo;
